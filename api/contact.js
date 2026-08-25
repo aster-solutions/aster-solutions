@@ -122,3 +122,5 @@ module.exports = async function handler(req, res) {
     });
   }
 };
+
+// Git-connected deployment trigger: 2026-08-25
