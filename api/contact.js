@@ -1,3 +1,5 @@
+const nodemailer = require('nodemailer');
+
 const ALLOWED_ORIGINS = [
   'https://aster-solutions.github.io',
   'https://aster-solutions.github.io/aster-solutions',
@@ -36,7 +38,6 @@ module.exports = async function handler(req, res) {
     website = '',
   } = req.body || {};
 
-  // Honeypot anti-spam field.
   if (website) return res.status(200).json({ ok: true });
 
   const cleanName = String(name).trim().slice(0, 150);
@@ -63,11 +64,11 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ ok: false, error: 'Adresse e-mail invalide.' });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.FROM_EMAIL;
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
 
-  if (!apiKey || !fromEmail) {
-    console.error('Missing RESEND_API_KEY or FROM_EMAIL');
+  if (!smtpUser || !smtpPass) {
+    console.error('Missing SMTP_USER or SMTP_PASS');
     return res.status(503).json({
       ok: false,
       error: 'Le service de contact est temporairement indisponible.',
@@ -76,6 +77,7 @@ module.exports = async function handler(req, res) {
 
   const need = cleanTopic === 'Autre besoin' ? cleanOtherTopic : cleanTopic;
   const subject = `Demande ASTER Solutions — ${need}`;
+
   const text = [
     'Nouvelle demande depuis le site ASTER Solutions',
     '',
@@ -88,39 +90,28 @@ module.exports = async function handler(req, res) {
   ].join('\n');
 
   try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
       },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [TO_EMAIL],
-        reply_to: cleanEmail,
-        subject,
-        text,
-      }),
     });
 
-    const data = await response.json().catch(() => ({}));
-
-    if (!response.ok) {
-      console.error('Resend error', response.status, data);
-      return res.status(500).json({
-        ok: false,
-        error: "L'envoi a échoué. Merci de réessayer dans quelques instants.",
-      });
-    }
+    await transporter.sendMail({
+      from: `ASTER Solutions Website <${smtpUser}>`,
+      to: TO_EMAIL,
+      replyTo: cleanEmail,
+      subject,
+      text,
+    });
 
     return res.status(200).json({ ok: true });
   } catch (error) {
-    console.error('Contact API error', error);
+    console.error('SMTP send error', error);
     return res.status(500).json({
       ok: false,
       error: "L'envoi a échoué. Merci de réessayer dans quelques instants.",
     });
   }
 };
-
-// Git-connected deployment trigger: 2026-08-25
