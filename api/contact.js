@@ -115,3 +115,5 @@ module.exports = async function handler(req, res) {
     });
   }
 };
+
+// Redeploy after SMTP environment variables update: 2026-08-25
