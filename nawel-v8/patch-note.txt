@@ -1,0 +1,1 @@
+Restoring the stable V8 chunk sequence before applying the V9 client-side patch.
