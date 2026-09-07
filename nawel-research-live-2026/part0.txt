@@ -90,4 +90,4 @@ a:hover{color:var(--blue)}
 .collab-card p{font-size:14px;margin:4px 0;color:#59677A;font-weight:700}
 .teach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .teach-card{border:1px solid var(--line);border-radius:22px;padding:20px;background:#fff;min-height:225px}
-.teach-card:nth-child(1){border-top:4px solid var(--orange);backgr
+.teach-card:nth-child(1){border-top:4px solid var(--orange);backgroun
