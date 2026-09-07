@@ -68,4 +68,9 @@ a:hover{color:var(--blue)}
 .no-thumb{width:102px;height:76px}
 .pmeta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:6px}
 .year{font-size:13px;font-weight:800;color:#687484}
-.venue{border-radius:999px;padding:5px 10px;backgr
+.venue{border-radius:999px;padding:5px 10px;background:var(--softblue);color:var(--navy);border:1px solid #DCE6EE;font-size:11px;font-weight:800}
+.pub h3{font-size:18px;line-height:1.24;margin:0 0 5px;color:var(--navy)}
+.authors{font-size:13px;color:#6C7785}
+.actions{display:flex;gap:8px;margin-top:9px}
+.action{padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--navy);font-size:11px;font-weight:800}
+.frameworks{display:grid;grid-template-columns:repeat(3,1fr);
