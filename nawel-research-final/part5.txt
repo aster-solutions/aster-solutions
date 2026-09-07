@@ -1,0 +1,15 @@
+rticle class="exp"><h3>2016–2022 · Computer Science Engineer</h3><p>ESI Algiers · Highest Honors</p></article><article class="exp"><h3>2017 · Network Internship</h3><p>ANPT Algiers · VLAN and network services.</p></article><article class="exp"><h3>2019 · Software Internship</h3><p>Hospital Establishment · medical records application.</p></article><article class="exp"><h3>2020–2021 · Research Internship</h3><p>CDTA Algiers · morphing attacks, facial-recognition vulnerability and detection.</p></article><article class="exp"><h3>2021–2022 · Master 2 Computer Systems</h3><p>ESI Algiers</p></article><article class="exp"><h3>2022–2026 · Ph.D.</h3><p>INSA Lyon / LIRIS</p></article></div></section><div class="footer">© 2026 Nawel Benarba · Trustworthy AI · Federated Learning · Privacy · Fairness</div></main></div><script>
+const track=document.getElementById('newsTrack');
+const cards=[...document.querySelectorAll('.news-card')];
+const dots=[...document.querySelectorAll('.dot')];
+let newsIndex=0;
+function cardStep(){ if(!cards.length) return 0; const gap=16; return cards[0].getBoundingClientRect().width+gap;
+}
+function renderNews(){ const max=2; if(newsIndex>max) newsIndex=max; track.style.transform=`translateX(${-newsIndex*cardStep()}px)`; dots.forEach((d,i)=>d.classList.toggle('active',i===newsIndex));
+}
+document.getElementById('prevNews').addEventListener('click',()=>{newsIndex=newsIndex<=0?2:newsIndex-1;renderNews()});
+document.getElementById('nextNews').addEventListener('click',()=>{newsIndex=newsIndex>=2?0:newsIndex+1;renderNews()});
+dots.forEach(d=>d.addEventListener('click',()=>{newsIndex=Number(d.dataset.index);renderNews()}));
+window.addEventListener('resize',renderNews);
+renderNews();
+</script></body></html>
